@@ -1,3 +1,6 @@
+using BeanPriceViewer.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace BeanPriceViewer
 {
     public class Program
@@ -8,6 +11,9 @@ namespace BeanPriceViewer
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<CityDbContext>(options =>
+                    options.UseInMemoryDatabase("SavedCityDb")
+                );
 
             var app = builder.Build();
 
