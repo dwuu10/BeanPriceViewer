@@ -18,6 +18,11 @@ namespace BeanPriceViewer.Controllers
             return View();
         }
 
+        public IActionResult CityView()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
