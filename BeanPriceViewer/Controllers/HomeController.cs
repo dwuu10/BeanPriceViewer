@@ -23,6 +23,17 @@ namespace BeanPriceViewer.Controllers
             return View();
         }
 
+        public IActionResult CreateEditCity()
+        {
+            return View();
+        }
+
+        public IActionResult CreateEditCityForm(City model)
+        {
+
+            return RedirectToAction("CityView");
+        }
+
         public IActionResult Privacy()
         {
             return View();

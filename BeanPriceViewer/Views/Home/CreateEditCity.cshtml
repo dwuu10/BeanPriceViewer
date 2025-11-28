@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Create / Edit";
+}
+
+@model City
+
+<div class="text-center">
+    <h1 class="display-4">Create or Edit a city</h1>
+</div>
+
+<form asp-action="CreateEditCityForm" asp-controller="Home">
+    <label>Id</label>
+    <input class="form-control" type="number" placeholder="0" asp-for="Id" />
+
+    <label class="mt-4">City Name (case sensitive)</label>
+    <input class="form-control" type="text" placeholder="City name here" asp-for="Name" />
+
+    <button class="btn btn-primary mt-4" type="submit">Ok</button>
+</form>
