@@ -2,8 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model City
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <a asp-action="CityView" class="btn btn-primary">Overview</a>
     <a asp-action="CreateEditCity" class="btn btn-secondary">Create new</a>
+    <form asp-action="SeeCity" asp-controller="Home">
+        <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
+        <input class="form-control mt-4" type="text" placeholder="City name here (Case sensitive)" asp-for="Name" />
+        <button class="btn btn-primary mt-4" type="submit">Find City</button>
+    </form>
 </div>

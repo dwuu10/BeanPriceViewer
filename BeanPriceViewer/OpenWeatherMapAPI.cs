@@ -11,40 +11,56 @@ namespace BeanPriceViewer;
 
     public class OpenWeatherMapAPI
     {
-        public static int Weather(string cityname)
+    public static int Weather(string cityname)
+    {
+        var client = new HttpClient();
+
+        var city = cityname;
+        var key = "c8751ce973594af2bed7f5ad6b9c57f5";
+
+        var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
+
+        var response = client.GetStringAsync(weatherURL).Result;
+
+        var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
+
+        var temp = JObject.Parse(formattedResponse).GetValue("temp");
+
+        if (temp != null)
         {
-            var client = new HttpClient();
-
-            var city = cityname;
-            var key = "c8751ce973594af2bed7f5ad6b9c57f5";
-
-            var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
-
-            var response = client.GetStringAsync(weatherURL).Result;
-
-            var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
-
-            var temp = JObject.Parse(formattedResponse).GetValue("temp");
 
             return (int)temp;
         }
-
-        public static int Humidity(string cityname)
+        else
         {
-            var client = new HttpClient();
+            return -999;
+        }
+    }
 
-            var city = cityname;
-            var key = "c8751ce973594af2bed7f5ad6b9c57f5";
+            public static int Humidity(string cityname)
+            {
+                var client = new HttpClient();
 
-            var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
+                var city = cityname;
+                var key = "c8751ce973594af2bed7f5ad6b9c57f5";
 
-            var response = client.GetStringAsync(weatherURL).Result;
+                var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
 
-            var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
+                var response = client.GetStringAsync(weatherURL).Result;
 
-            var humid = JObject.Parse(formattedResponse).GetValue("humidity");
+                var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
 
-            return (int)humid;
+                var humid = JObject.Parse(formattedResponse).GetValue("humidity");
+
+                if (humid != null)
+                {
+
+                    return (int)humid;
+                }
+                else
+                {
+                    return -999;
+                }
         }
 
     }

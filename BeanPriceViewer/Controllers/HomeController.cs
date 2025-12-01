@@ -64,6 +64,24 @@ namespace BeanPriceViewer.Controllers
             return RedirectToAction("CityView");
         }
 
+        public IActionResult SeeCity(City model)
+        {
+            model.Temperature = OpenWeatherMapAPI.Weather(model.Name);
+            model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
+            if (model.Name == null || model.Temperature == -999)
+            {
+
+            }
+            else
+            {
+                model.BluePrice = CityData.CalculateBlueBeanPrice((int)model.Temperature);
+                model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
+                model.GreenPrice = CityData.CalculateGreenBeanPrice((int)model.Humidity);
+                model.YellowPrice = CityData.CalculateYellowBeanPrice((int)model.Humidity);
+            }
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
