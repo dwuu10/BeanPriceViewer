@@ -57,6 +57,12 @@ namespace BeanPriceViewer.Controllers
             else
             {
                 // editing entity
+                model.Temperature = OpenWeatherMapAPI.Weather(model.Name);
+                model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
+                model.BluePrice = CityData.CalculateBlueBeanPrice((int)model.Temperature);
+                model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
+                model.GreenPrice = CityData.CalculateGreenBeanPrice((int)model.Humidity);
+                model.YellowPrice = CityData.CalculateYellowBeanPrice((int)model.Humidity);
                 _context.CitySet.Update(model);
             }
 
@@ -70,7 +76,7 @@ namespace BeanPriceViewer.Controllers
             model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
             if (model.Name == null || model.Temperature == -999)
             {
-
+                return RedirectToAction("SeeCityError");
             }
             else
             {
@@ -78,7 +84,12 @@ namespace BeanPriceViewer.Controllers
                 model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
                 model.GreenPrice = CityData.CalculateGreenBeanPrice((int)model.Humidity);
                 model.YellowPrice = CityData.CalculateYellowBeanPrice((int)model.Humidity);
+                return View(model);
             }
+        }
+
+        public IActionResult SeeCityError()
+        {
             return View();
         }
 

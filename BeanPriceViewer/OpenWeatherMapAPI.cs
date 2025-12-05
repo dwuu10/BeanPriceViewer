@@ -22,12 +22,10 @@ namespace BeanPriceViewer;
 
         var response = client.GetStringAsync(weatherURL).Result;
 
-        var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
+        if (response != null) {
+            var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
 
-        var temp = JObject.Parse(formattedResponse).GetValue("temp");
-
-        if (temp != null)
-        {
+            var temp = JObject.Parse(formattedResponse).GetValue("temp");
 
             return (int)temp;
         }
@@ -35,6 +33,7 @@ namespace BeanPriceViewer;
         {
             return -999;
         }
+
     }
 
             public static int Humidity(string cityname)
@@ -48,12 +47,11 @@ namespace BeanPriceViewer;
 
                 var response = client.GetStringAsync(weatherURL).Result;
 
-                var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
-
-                var humid = JObject.Parse(formattedResponse).GetValue("humidity");
-
-                if (humid != null)
+                if (response != null)
                 {
+                    var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
+
+                    var humid = JObject.Parse(formattedResponse).GetValue("humidity");
 
                     return (int)humid;
                 }

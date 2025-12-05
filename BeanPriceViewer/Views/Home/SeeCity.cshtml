@@ -3,3 +3,26 @@
 *@
 @{
 }
+
+@model City
+
+<div class="text-center">
+    <h1 class="display-4">@Model.Name</h1>
+    <p>Blue Beans: @Model.BluePrice</p>
+    <p>Red Beans: @Model.RedPrice</p>
+    <p>Green Beans: @Model.GreenPrice</p>
+    <p>Yellow Beans: @Model.YellowPrice</p>
+    <form asp-action="CreateEditCityForm" asp-controller="Home">
+        <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
+        <input hidden class="form-control" type="text" placeholder=@Model.Name asp-for="Name" />
+        <input hidden class="form-control" type="number" placeholder=@Model.Temperature asp-for="Temperature" />
+        <input hidden class="form-control" type="number" placeholder=@Model.Humidity asp-for="Humidity" />
+        <input hidden class="form-control" type="number" placeholder=@Model.BluePrice asp-for="BluePrice" />
+        <input hidden class="form-control" type="number" placeholder=@Model.RedPrice asp-for="RedPrice" />
+        <input hidden class="form-control" type="number" placeholder=@Model.GreenPrice asp-for="GreenPrice" />
+        <input hidden class="form-control" type="number" placeholder=@Model.YellowPrice asp-for="YellowPrice" />
+
+        <button class="btn btn-primary" type="submit">Save to List</button>
+    </form>
+    <a asp-action="Index" class="btn btn-secondary">Return to Home</a>
+</div>
