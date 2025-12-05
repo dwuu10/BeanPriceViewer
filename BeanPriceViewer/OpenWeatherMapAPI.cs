@@ -20,45 +20,45 @@ namespace BeanPriceViewer;
 
         var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
 
-        var response = client.GetStringAsync(weatherURL).Result;
+        try
+        {
+            var response = client.GetStringAsync(weatherURL).Result;
 
-        if (response != null) {
             var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
 
             var temp = JObject.Parse(formattedResponse).GetValue("temp");
 
             return (int)temp;
-        }
-        else
+        } 
+        catch (AggregateException e)
         {
             return -999;
         }
-
     }
 
-            public static int Humidity(string cityname)
+        public static int Humidity(string cityname)
+        {
+            var client = new HttpClient();
+
+            var city = cityname;
+            var key = "c8751ce973594af2bed7f5ad6b9c57f5";
+
+            var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
+
+            try
             {
-                var client = new HttpClient();
-
-                var city = cityname;
-                var key = "c8751ce973594af2bed7f5ad6b9c57f5";
-
-                var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
-
                 var response = client.GetStringAsync(weatherURL).Result;
 
-                if (response != null)
-                {
-                    var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
+                var formattedResponse = JObject.Parse(response).GetValue("main").ToString();
 
-                    var humid = JObject.Parse(formattedResponse).GetValue("humidity");
+                var humid = JObject.Parse(formattedResponse).GetValue("humidity");
 
-                    return (int)humid;
-                }
-                else
-                {
-                    return -999;
-                }
+                return (int)humid;
+            } 
+            catch (AggregateException e)
+            {
+                return -999;
+            }
         }
 
     }
