@@ -56,8 +56,15 @@ namespace BeanPriceViewer.Controllers
             }
             else
             {
+                
                 // editing entity
                 model.Temperature = OpenWeatherMapAPI.Weather(model.Name);
+
+                if(model.Temperature == -999)
+                {
+                    return RedirectToAction("SeeCityError");
+                }
+
                 model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
                 model.BluePrice = CityData.CalculateBlueBeanPrice((int)model.Temperature);
                 model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
