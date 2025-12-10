@@ -39,6 +39,11 @@ namespace BeanPriceViewer.Controllers
             return View();
         }
 
+        public IActionResult CreateCity()
+        {
+            return View();
+        }
+
         public IActionResult Delete(int id)
         {
             var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == id);
@@ -49,7 +54,20 @@ namespace BeanPriceViewer.Controllers
 
         public IActionResult CreateEditCityForm(City model)
         {
-            if(model.Id == 0)
+            model.Temperature = OpenWeatherMapAPI.Weather(model.Name);
+
+            if (model.Temperature == -999)
+            {
+                return RedirectToAction("SeeCityError");
+            }
+
+            model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
+            model.BluePrice = CityData.CalculateBlueBeanPrice((int)model.Temperature);
+            model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
+            model.GreenPrice = CityData.CalculateGreenBeanPrice((int)model.Humidity);
+            model.YellowPrice = CityData.CalculateYellowBeanPrice((int)model.Humidity);
+
+            if (model.Id == 0)
             {
                 // creating entity
                 _context.CitySet.Add(model);
@@ -58,18 +76,6 @@ namespace BeanPriceViewer.Controllers
             {
                 
                 // editing entity
-                model.Temperature = OpenWeatherMapAPI.Weather(model.Name);
-
-                if(model.Temperature == -999)
-                {
-                    return RedirectToAction("SeeCityError");
-                }
-
-                model.Humidity = OpenWeatherMapAPI.Humidity(model.Name);
-                model.BluePrice = CityData.CalculateBlueBeanPrice((int)model.Temperature);
-                model.RedPrice = CityData.CalculateRedBeanPrice((int)model.Temperature);
-                model.GreenPrice = CityData.CalculateGreenBeanPrice((int)model.Humidity);
-                model.YellowPrice = CityData.CalculateYellowBeanPrice((int)model.Humidity);
                 _context.CitySet.Update(model);
             }
 
