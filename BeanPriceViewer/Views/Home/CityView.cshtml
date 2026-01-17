@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Saved Cities";
+}
+
+@model List<City>
+
+<div class="text-center">
+    <h1 class="display-4">Saved Cities</h1>
+    <a asp-action="UpdateEntireDb" class="btn btn-primary mt-4">Update List</a>
+    <a asp-action="CreateCity" class="btn btn-primary mt-4">Add New City</a>
+    <br />
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    Temperature (Fahrenheit)
+                </th>
+                <th>
+                    Humidity
+                </th>
+                <th>
+                    Blue Bean Price
+                </th>
+                <th>
+                    Red Bean Price
+                </th>
+                <th>
+                    Green Bean Price
+                </th>
+                <th>
+                    Yellow Bean Price
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach ( var city in Model)
+                {
+                    <tr>
+                        <td>
+                            @city.Id
+                        </td>
+                        <td>
+                            @city.Name
+                        </td>
+                        <td>
+                            @city.Temperature
+                        </td>
+                        <td>
+                            @city.Humidity
+                        </td>
+                        <td>
+                            @city.BluePrice
+                        </td>
+                        <td>
+                            @city.RedPrice
+                        </td>
+                        <td>
+                            @city.GreenPrice
+                        </td>
+                        <td>
+                            @city.YellowPrice
+                        </td>
+                        <td>
+                            <a asp-action="CreateEditCity" asp-route-id="@city.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@city.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

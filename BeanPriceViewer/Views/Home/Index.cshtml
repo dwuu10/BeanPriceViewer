@@ -2,7 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model City
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Find a city of your choice and view the current bean prices</p>
+    <form asp-action="SeeCity" asp-controller="Home">
+        <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
+        <input class="form-control mt-4" type="text" placeholder="City name here" asp-for="Name" />
+        <button class="btn btn-primary mt-4" type="submit">Find City</button>
+    </form>
+    <img class="mt-4" src="~/images/search.png" />
 </div>
