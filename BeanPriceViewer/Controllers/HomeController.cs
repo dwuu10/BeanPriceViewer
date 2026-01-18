@@ -10,10 +10,13 @@ namespace BeanPriceViewer.Controllers
 
         private readonly CityDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, CityDbContext context)
+        private readonly GameDbContext _contextgame;
+
+        public HomeController(ILogger<HomeController> logger, CityDbContext context, GameDbContext contextgame)
         {
             _logger = logger;
             _context = context;
+            _contextgame = contextgame;
         }
 
         public IActionResult Index()
@@ -127,6 +130,66 @@ namespace BeanPriceViewer.Controllers
         {
             return View();
         }
+
+        // game stuff
+
+        public IActionResult GamesView()
+        {
+            var allGames = _contextgame.Games.ToList();
+            return View(allGames);
+        }
+
+        public IActionResult NewGameForm(GameData model)
+        {
+            return View();
+        }
+
+        public IActionResult GameMain(GameData model)
+        {
+            var allCities = _context.CitySet.ToList();
+            ViewBag.GameMain = allCities;
+            return View(model);
+        }
+
+        public IActionResult NextTurn(GameData model)
+        {
+            model.Turn += 1;
+            _contextgame.Games.Update(model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GameMain");
+        }
+
+        public IActionResult BuyMenu(int id, GameData model)
+        {
+            return View(model);
+        }
+
+        public IActionResult SellMenu(int id, GameData model)
+        {
+            return View(model);
+        }
+
+        public IActionResult Purchase(int id, string beanType,  GameData model)
+        {
+            model.Turn += 1;
+            _contextgame.Games.Update(model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GameMain");
+        }
+
+        public IActionResult Sell(int id, string beanType, GameData model)
+        {
+            model.Turn += 1;
+            _contextgame.Games.Update(model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GameMain");
+        }
+
+        public IActionResult GameOver(GameData model)
+        {
+            return View(model);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

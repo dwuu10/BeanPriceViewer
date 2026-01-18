@@ -15,6 +15,10 @@ namespace BeanPriceViewer
                     options.UseInMemoryDatabase("SavedCityDb")
                 );
 
+            builder.Services.AddDbContext<GameDbContext>(options =>
+                    options.UseInMemoryDatabase("SavedGameDb")
+                );
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
