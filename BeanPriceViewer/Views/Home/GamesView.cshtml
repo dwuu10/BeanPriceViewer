@@ -1,0 +1,96 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Saved Cities";
+    var Model = ViewBag.Games
+}
+
+@model GameData
+
+<div class="text-center">
+    <h1 class="display-4">Saved Games</h1>
+    <a asp-action="NewGameForm" class="btn btn-primary mt-4">New Game</a>
+    <br />
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Turn
+                </th>
+                <th>
+                    Max Turns
+                </th>
+                <th>
+                    Cash
+                </th>
+                <th>
+                    Blue Beans
+                </th>
+                <th>
+                    Red Beans
+                </th>
+                <th>
+                    Green Beans
+                </th>
+                <th>
+                    Yellow Beans
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach ( var game in Model)
+                {
+                    <tr>
+                        <td>
+                            @game.Id
+                        </td>
+                        <td>
+                            @game.Turn
+                        </td>
+                        <td>
+                            @game.MaxTurns
+                        </td>
+                        <td>
+                            @game.Cash
+                        </td>
+                        <td>
+                            @game.BlueStock
+                        </td>
+                        <td>
+                            @game.RedStock
+                        </td>
+                        <td>
+                            @game.GreenStock
+                        </td>
+                        <td>
+                            @game.YellowStock
+                        </td>
+                        <td>
+                            <form asp-action="GameMain" asp-controller="Home">
+                                <input hidden class="form-control" type="number" placeholder="@game.Id" asp-for="Id" />
+                                <input hidden class="form-control" type="number" placeholder="@game.Cash" asp-for="Cash" />
+                                <input hidden class="form-control" type="number" placeholder="@game.Turn" asp-for="Turn" />
+                                <input hidden class="form-control" type="number" placeholder="@game.MaxTurns" asp-for="MaxTurns" />
+                                <input hidden class="form-control" type="number" placeholder="@game.BlueStock" asp-for="BlueStock" />
+                                <input hidden class="form-control" type="number" placeholder="@game.RedStock" asp-for="RedStock" />
+                                <input hidden class="form-control" type="number" placeholder="@game.GreenStock" asp-for="GreenStock" />
+                                <input hidden class="form-control" type="number" placeholder="@game.YellowStock" asp-for="YellowStock" />
+
+                                <button class="btn btn-primary" type="submit">Buy</button>
+                            </form>
+                            <a asp-action="DeleteGame" asp-route-id="@game.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

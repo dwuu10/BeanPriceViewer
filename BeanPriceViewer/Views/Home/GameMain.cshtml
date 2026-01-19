@@ -1,0 +1,113 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Saved Cities";
+    var Model = ViewBag.Cities;
+    var Game = ViewBag.Game;
+}
+
+@model TransactionData
+
+<div class="text-center">
+    <h1 class="display-4">Saved Cities</h1>
+    <a asp-action="NextTurn" class="btn btn-primary mt-4">Skip Turn</a>
+    <a asp-action="CreateCity" class="btn btn-primary mt-4">Add New City</a>
+    <br />
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    Temperature (Fahrenheit)
+                </th>
+                <th>
+                    Humidity
+                </th>
+                <th>
+                    Blue Bean Price
+                </th>
+                <th>
+                    Red Bean Price
+                </th>
+                <th>
+                    Green Bean Price
+                </th>
+                <th>
+                    Yellow Bean Price
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach ( var city in Model)
+                {
+                    <tr>
+                        <td>
+                            @city.Id
+                        </td>
+                        <td>
+                            @city.Name
+                        </td>
+                        <td>
+                            @city.Temperature
+                        </td>
+                        <td>
+                            @city.Humidity
+                        </td>
+                        <td>
+                            @city.BluePrice
+                        </td>
+                        <td>
+                            @city.RedPrice
+                        </td>
+                        <td>
+                            @city.GreenPrice
+                        </td>
+                        <td>
+                            @city.YellowPrice
+                        </td>
+                        <td>
+                            <form asp-action="BuyMenu" asp-controller="Home">
+                                <input hidden class="form-control" type="number" placeholder="@city.Id" asp-for="CityId" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
+
+                                <button class="btn btn-primary" type="submit">Buy</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="SellMenu" asp-controller="Home">
+                                <input hidden class="form-control" type="number" placeholder="@city.Id" asp-for="CityId" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
+                                <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
+
+                                <button class="btn btn-primary" type="submit">Sell</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
