@@ -140,9 +140,27 @@ namespace BeanPriceViewer.Controllers
             return View();
         }
 
-        public IActionResult NewGameForm()
+        public IActionResult NewGame()
         {
             return View();
+        }
+
+        public IActionResult NewGameForm(GameData model)
+        {
+            if (model.Id == 0)
+            {
+                // creating entity
+                _contextgame.Games.Add(model);
+            }
+            else
+            {
+
+                // editing entity
+                _contextgame.Games.Update(model);
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("GameMain", model);
         }
 
         public IActionResult GameMain(GameData model)
