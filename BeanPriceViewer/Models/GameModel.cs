@@ -12,5 +12,6 @@ namespace BeanPriceViewer.Models
         public int? RedStock { get; set; }
         public int? GreenStock { get; set; }
         public int? YellowStock { get; set; }
+
     }
 }

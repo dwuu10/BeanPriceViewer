@@ -11,8 +11,21 @@
 
 <div class="text-center">
     <h1 class="display-4">Saved Cities</h1>
-    <a asp-action="NextTurn" class="btn btn-primary mt-4">Skip Turn</a>
-    <a asp-action="CreateCity" class="btn btn-primary mt-4">Add New City</a>
+    <p>Cash: @Game.Cash</p>
+    <p>Turns: @Game.Turn / @Game.MaxTurns</p>
+    <form asp-action="NextTurn" asp-controller="Home">
+        <input hidden class="form-control" type="number" placeholder="0" asp-for="CityId" />
+        <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
+        <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
+        <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
+        <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
+        <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
+        <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
+        <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
+        <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
+
+        <button class="btn btn-primary" type="submit">Skip turn</button>
+    </form>
     <br />
     <table class="table mt-4">
         <thead>

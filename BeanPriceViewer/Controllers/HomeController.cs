@@ -147,6 +147,22 @@ namespace BeanPriceViewer.Controllers
 
         public IActionResult NewGameForm(GameData model)
         {
+            if (model.MaxTurns <= 0 || model.MaxTurns == null)
+            {
+                model.MaxTurns = 20;
+            }
+
+            if (model.Cash <= 0 || model.Cash == null)
+            {
+                model.Cash = 1000;
+            }
+
+            model.Turn = 0;
+            model.BlueStock = 0;
+            model.YellowStock = 0;
+            model.GreenStock = 0;
+            model.RedStock = 0;
+
             if (model.Id == 0)
             {
                 // creating entity
@@ -172,12 +188,13 @@ namespace BeanPriceViewer.Controllers
             return View();
         }
 
-        public IActionResult NextTurn(GameData model)
+        public IActionResult NextTurn(TransactionData model)
         {
-            model.Turn += 1;
-            _contextgame.Games.Update(model);
+            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == model.Id);
+            gameInDb.Turn += 1;
+            _contextgame.Games.Update(gameInDb);
             _contextgame.SaveChanges();
-            return View(model);
+            return RedirectToAction("GameMain", gameInDb);
         }
 
         public IActionResult BuyMenu(TransactionData model)
