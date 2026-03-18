@@ -2,15 +2,14 @@
     ViewData["Title"] = "Create / Edit";
 }
 
-@model CalculationData
+@model GameData
 
 <div class="text-center">
     <h1 class="display-4">Buying Beans: </h1>
 </div>
 
-<form asp-action="Purchase" asp-controller="Home">
+<form asp-action="Purchase" asp-controller="Home" asp-route-cid="">
     <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
-    <input hidden class="form-control" type="number" placeholder="0" asp-for="CityId" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="Cash" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="Turn" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="MaxTurns" />
@@ -18,8 +17,8 @@
     <input hidden class="form-control" type="number" placeholder="0" asp-for="RedStock" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="GreenStock" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="YellowStock" />
-    <input class="form-control" type="number" placeholder="Amount" asp-for="amount" />
-    <select class="form-control" type="text" asp-for="BeanType">
+    <input class="form-control" type="number" placeholder="Amount" asp-route="amount"/>
+    <select class="form-control" type="text" asp-route="type">
         <option value="Blue">Blue beans</option>
         <option value="Red">Red beans</option>
         <option value="Green">Green beans</option>

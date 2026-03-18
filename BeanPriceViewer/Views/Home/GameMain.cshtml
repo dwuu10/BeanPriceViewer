@@ -7,7 +7,7 @@
     var Game = ViewBag.Game;
 }
 
-@model TransactionData
+@model GameData
 
 <div class="text-center">
     <h1 class="display-4">Saved Cities</h1>
@@ -89,8 +89,7 @@
                             @city.YellowPrice
                         </td>
                         <td>
-                            <form asp-action="BuyMenu" asp-controller="Home">
-                                <input hidden class="form-control" type="number" placeholder="@city.Id" asp-for="CityId" />
+                            <form asp-action="BuyMenu" asp-controller="Home" asp-route-cid="@city.Id">
                                 <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
                                 <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
                                 <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
@@ -104,8 +103,7 @@
                             </form>
                         </td>
                         <td>
-                            <form asp-action="SellMenu" asp-controller="Home">
-                                <input hidden class="form-control" type="number" placeholder="@city.Id" asp-for="CityId" />
+                            <form asp-action="SellMenu" asp-controller="Home" asp-route-cid="@city.Id">
                                 <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
                                 <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
                                 <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
