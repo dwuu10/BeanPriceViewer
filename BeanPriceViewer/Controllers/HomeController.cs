@@ -183,9 +183,8 @@ namespace BeanPriceViewer.Controllers
         {
             var allCities = _context.CitySet.ToList();
             ViewBag.Cities = allCities;
-            ViewBag.Game = model;
 
-            return View();
+            return View(model);
         }
 
         public IActionResult NextTurn(GameData model)
@@ -197,34 +196,52 @@ namespace BeanPriceViewer.Controllers
             return RedirectToAction("GameMain", gameInDb);
         }
 
-        public IActionResult BuyMenu(GameData model, int cid)
+        public IActionResult BuyMenu(int cid, int gameid)
         {
-            if (cid != null)
+            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+
+            if (gameInDb == null || cityInDb == null)
             {
-                ViewBag.GameData = model;
-                // if not null, editing existing entity
-                var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
-                return View(cityInDb);
+                return NotFound();
             }
-            return View();
+
+            ViewBag.Cash = gameInDb.Cash;
+            ViewBag.Turn = gameInDb.Turn;
+            ViewBag.BluePrice = cityInDb.BluePrice;
+            ViewBag.RedPrice = cityInDb.RedPrice;
+            ViewBag.YellowPrice = cityInDb.YellowPrice;
+            ViewBag.GreenPrice = cityInDb.GreenPrice;
+
+            return View(gameInDb);
         }
 
-        public IActionResult SellMenu(GameData model, int cid)
+        public IActionResult SellMenu(int cid, int gameid)
         {
-            if (cid != null)
+            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+
+            if (gameInDb == null || cityInDb == null)
             {
-                ViewBag.GameData = model;
-                // if not null, editing existing entity
-                var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
-                return View(cityInDb);
+                return NotFound();
             }
-            return View();
+
+            ViewBag.CID = cid;
+            ViewBag.GameId = gameid;
+            ViewBag.Cash = gameInDb.Cash;
+            ViewBag.Turn = gameInDb.Turn;
+            ViewBag.BluePrice = cityInDb.BluePrice;
+            ViewBag.RedPrice = cityInDb.RedPrice;
+            ViewBag.YellowPrice = cityInDb.YellowPrice;
+            ViewBag.GreenPrice = cityInDb.GreenPrice;
+
+            return View(gameInDb);
         }
 
-        public IActionResult Purchase(GameData model, int cid, int amount, string type)
+        public IActionResult Purchase(int cid, int gameid, int amount, string type)
         {
-            var allCities = _context.CitySet.ToList();
             var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
             var price = 0;
             if (type == "Blue")
             {
@@ -251,11 +268,12 @@ namespace BeanPriceViewer.Controllers
             ViewBag.Cost = cost;
             ViewBag.Model = model;
 
-            return View();
+            return View(model);
         }
 
-        public IActionResult ConfirmPurchase(GameData model, int cid, int amount, string type)
+        public IActionResult ConfirmPurchase(int cid, int gameid, int amount, string type)
         {
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
             model.Turn++;
             var allCities = _context.CitySet.ToList();
             var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
@@ -290,6 +308,12 @@ namespace BeanPriceViewer.Controllers
             {
                 model.Cash -= cost;
             }
+
+            ViewBag.Cost = cost;
+            ViewBag.CID = cid;
+            ViewBag.GameId = gameid;
+            ViewBag.Amount = amount;
+            ViewBag.Type = type;
 
             _contextgame.Games.Update(model);
             _contextgame.SaveChanges();
@@ -332,7 +356,7 @@ namespace BeanPriceViewer.Controllers
             ViewBag.Cost = amount;
             ViewBag.Model = model;
 
-            return View();
+            return View(model);
         }
 
         public IActionResult ConfirmSale(GameData model, int cid, int amount, string type)
@@ -386,7 +410,7 @@ namespace BeanPriceViewer.Controllers
         public IActionResult InvalidTransaction(GameData model)
         {
             ViewBag.Model = model;
-            return View();
+            return View(model);
         }
 
 

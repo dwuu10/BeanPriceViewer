@@ -3,26 +3,24 @@
 *@
 @{
     ViewData["Title"] = "Saved Cities";
-    var Model = ViewBag.Cities;
-    var Game = ViewBag.Game;
+    var cities = ViewBag.Cities;
 }
 
 @model GameData
 
 <div class="text-center">
     <h1 class="display-4">Saved Cities</h1>
-    <p>Cash: @Game.Cash</p>
-    <p>Turns: @Game.Turn / @Game.MaxTurns</p>
+    <p>Cash: @Model.Cash</p>
+    <p>Turns: @Model.Turn / @Model.MaxTurns</p>
     <form asp-action="NextTurn" asp-controller="Home">
-        <input hidden class="form-control" type="number" placeholder="0" asp-for="CityId" />
-        <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
-        <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
-        <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
-        <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
-        <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
-        <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
-        <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
-        <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
+        <input hidden class="form-control" type="number" placeholder="@Model.Id" asp-for="Id" />
+        <input hidden class="form-control" type="number" placeholder="@Model.Cash" asp-for="Cash" />
+        <input hidden class="form-control" type="number" placeholder="@Model.Turn" asp-for="Turn" />
+        <input hidden class="form-control" type="number" placeholder="@Model.MaxTurns" asp-for="MaxTurns" />
+        <input hidden class="form-control" type="number" placeholder="@Model.BlueStock" asp-for="BlueStock" />
+        <input hidden class="form-control" type="number" placeholder="@Model.RedStock" asp-for="RedStock" />
+        <input hidden class="form-control" type="number" placeholder="@Model.GreenStock" asp-for="GreenStock" />
+        <input hidden class="form-control" type="number" placeholder="@Model.YellowStock" asp-for="YellowStock" />
 
         <button class="btn btn-primary" type="submit">Skip turn</button>
     </form>
@@ -61,7 +59,7 @@
         </thead>
         <tbody>
             @{
-                foreach ( var city in Model)
+                foreach ( var city in cities)
                 {
                     <tr>
                         <td>
@@ -89,32 +87,10 @@
                             @city.YellowPrice
                         </td>
                         <td>
-                            <form asp-action="BuyMenu" asp-controller="Home" asp-route-cid="@city.Id">
-                                <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
-
-                                <button class="btn btn-primary" type="submit">Buy</button>
-                            </form>
+                            <a asp-action="BuyMenu" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">Edit</a>
                         </td>
                         <td>
-                            <form asp-action="SellMenu" asp-controller="Home" asp-route-cid="@city.Id">
-                                <input hidden class="form-control" type="number" placeholder="@Game.Id" asp-for="Id" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.Cash" asp-for="Cash" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.Turn" asp-for="Turn" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.MaxTurns" asp-for="MaxTurns" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.BlueStock" asp-for="BlueStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.RedStock" asp-for="RedStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.GreenStock" asp-for="GreenStock" />
-                                <input hidden class="form-control" type="number" placeholder="@Game.YellowStock" asp-for="YellowStock" />
-
-                                <button class="btn btn-primary" type="submit">Sell</button>
-                            </form>
+                            <a asp-action="SellMenu" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">Edit</a>
                         </td>
                     </tr>
                 }
