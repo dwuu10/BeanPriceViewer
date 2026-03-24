@@ -4,15 +4,13 @@
     var gameid = ViewBag.GameId;
 }
 
-@model GameData
-
 <div class="text-center">
     <h1 class="display-4">Buying Beans: </h1>
 </div>
 
 <form asp-action="Purchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">
     <input class="form-control" type="number" placeholder="Amount" asp-route="amount"/>
-    <select class="form-control" type="text" asp-route="type">
+    <select class="form-control mt-4" type="text" asp-route="type">
         <option value="Blue">Blue beans</option>
         <option value="Red">Red beans</option>
         <option value="Green">Green beans</option>
