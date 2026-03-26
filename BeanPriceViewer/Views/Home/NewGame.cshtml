@@ -13,9 +13,9 @@
 
 <form asp-action="NewGameForm" asp-controller="Home">
     <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
+    <input hidden class="form-control" type="number" placeholder="0" asp-for="Turn" />
     <label class="mt-4">Starting cash</label>
     <input class="form-control" type="number" placeholder="1000" asp-for="Cash" />
-    <input hidden class="form-control" type="number" placeholder="0" asp-for="Turn" />
     <label class="mt-4">Turns to play to</label>
     <input class="form-control" type="number" placeholder="20" asp-for="MaxTurns" />
     <input hidden class="form-control" type="number" placeholder="0" asp-for="BlueStock" />

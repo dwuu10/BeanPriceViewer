@@ -136,8 +136,7 @@ namespace BeanPriceViewer.Controllers
         public IActionResult GamesView()
         {
             var allGames = _contextgame.Games.ToList();
-            ViewBag.Games = allGames;
-            return View();
+            return View(allGames);
         }
 
         public IActionResult NewGame()
@@ -175,8 +174,19 @@ namespace BeanPriceViewer.Controllers
                 _contextgame.Games.Update(model);
             }
 
-            _context.SaveChanges();
-            return RedirectToAction("GameMain", model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GamesView");
+        }
+
+        public IActionResult PlayGame(int? id)
+        {
+            if (id != null)
+            {
+                var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == id);
+                return RedirectToAction("GameMain", gameInDb);
+            }
+
+            return View();
         }
 
         public IActionResult GameMain(GameData model)
@@ -200,11 +210,22 @@ namespace BeanPriceViewer.Controllers
         {
             var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
             var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+            if (gameInDb == null)
+            {
+                Console.WriteLine("game not found");
+            }
+            else if (cityInDb == null) 
+            {
+                Console.WriteLine("city not found");
+            }
+
 
             if (gameInDb != null && cityInDb != null)
             {
-                ViewBag.Cash = gameInDb.Cash;
-                ViewBag.Turn = gameInDb.Turn;
+                ViewBag.CID = cid;
+                ViewBag.GameId = gameid;
+                ViewBag.Cash = 1; //gameInDb.Cash;
+                ViewBag.Turns = 2; //gameInDb.Turn;
                 ViewBag.BluePrice = cityInDb.BluePrice;
                 ViewBag.RedPrice = cityInDb.RedPrice;
                 ViewBag.YellowPrice = cityInDb.YellowPrice;
@@ -212,8 +233,13 @@ namespace BeanPriceViewer.Controllers
 
                 return View();
             }
-
-            return View();
+            else
+            {
+                ViewBag.CID = 2;
+                ViewBag.GameId = 2;
+                return View();
+            }
+                
         }
 
         public IActionResult SellMenu(int cid, int gameid)

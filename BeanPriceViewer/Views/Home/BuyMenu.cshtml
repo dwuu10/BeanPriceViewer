@@ -6,6 +6,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Buying Beans: </h1>
+    <p>Cash: @ViewData["Cash"]</p>
+    <p>Turns: @ViewData["Turns"]</p>
 </div>
 
 <form asp-action="Purchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">

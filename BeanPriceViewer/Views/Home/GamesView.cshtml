@@ -3,10 +3,10 @@
 *@
 @{
     ViewData["Title"] = "Saved Cities";
-    var Model = ViewBag.Games;
+    var Games = ViewBag.Games;
 }
 
-@model GameData
+@model List<GameData>
 
 <div class="text-center">
     <h1 class="display-4">Saved Games</h1>
@@ -74,18 +74,7 @@
                             @game.YellowStock
                         </td>
                         <td>
-                            <form asp-action="GameMain" asp-controller="Home">
-                                <input hidden class="form-control" type="number" placeholder="@game.Id" asp-for="Id" />
-                                <input hidden class="form-control" type="number" placeholder="@game.Cash" asp-for="Cash" />
-                                <input hidden class="form-control" type="number" placeholder="@game.Turn" asp-for="Turn" />
-                                <input hidden class="form-control" type="number" placeholder="@game.MaxTurns" asp-for="MaxTurns" />
-                                <input hidden class="form-control" type="number" placeholder="@game.BlueStock" asp-for="BlueStock" />
-                                <input hidden class="form-control" type="number" placeholder="@game.RedStock" asp-for="RedStock" />
-                                <input hidden class="form-control" type="number" placeholder="@game.GreenStock" asp-for="GreenStock" />
-                                <input hidden class="form-control" type="number" placeholder="@game.YellowStock" asp-for="YellowStock" />
-
-                                <button class="btn btn-primary" type="submit">Play</button>
-                            </form>
+                            <a asp-action="PlayGame" asp-route-id="@game.Id">Play</a>
                             <a asp-action="DeleteGame" asp-route-id="@game.Id">Delete</a>
                         </td>
                     </tr>
