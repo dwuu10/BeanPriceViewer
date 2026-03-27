@@ -210,22 +210,14 @@ namespace BeanPriceViewer.Controllers
         {
             var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
             var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
-            if (gameInDb == null)
-            {
-                Console.WriteLine("game not found");
-            }
-            else if (cityInDb == null) 
-            {
-                Console.WriteLine("city not found");
-            }
 
 
             if (gameInDb != null && cityInDb != null)
             {
                 ViewBag.CID = cid;
                 ViewBag.GameId = gameid;
-                ViewBag.Cash = 1; //gameInDb.Cash;
-                ViewBag.Turns = 2; //gameInDb.Turn;
+                ViewBag.Cash = gameInDb.Cash;
+                ViewBag.Turns = gameInDb.Turn;
                 ViewBag.BluePrice = cityInDb.BluePrice;
                 ViewBag.RedPrice = cityInDb.RedPrice;
                 ViewBag.YellowPrice = cityInDb.YellowPrice;
@@ -235,8 +227,6 @@ namespace BeanPriceViewer.Controllers
             }
             else
             {
-                ViewBag.CID = 2;
-                ViewBag.GameId = 2;
                 return View();
             }
                 
@@ -354,7 +344,7 @@ namespace BeanPriceViewer.Controllers
                 return RedirectToAction("GameMain", model);
             }
 
-            return View();
+            return RedirectToAction("GameMain", model);
         }
 
         public IActionResult Sell(GameData model, int cid, int amount, string type)
