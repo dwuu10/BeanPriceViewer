@@ -4,19 +4,21 @@
     var gameid = ViewBag.GameId;
 }
 
+@model TransactionData
+
 <div class="text-center">
     <h1 class="display-4">Buying Beans: </h1>
-    <p>Cash: @ViewData["Cash"]</p>
-    <p>Turns: @ViewData["Turns"]</p>
+    <p>Cash: @ViewBag.Cash</p>
+    <p>Turn: @ViewBag.Turns / @ViewBag.MaxTurns </p>
 </div>
 
 <form asp-action="Purchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">
-    <input class="form-control" type="number" placeholder="0" name="amount"/>
-    <select class="form-control mt-4" type="text" name="type">
-        <option value="Blue">Blue beans</option>
-        <option value="Red">Red beans</option>
-        <option value="Green">Green beans</option>
-        <option value="Yellow">Yellow beans</option> 
+    <input class="form-control" type="number" placeholder="0" asp-for="Amount"/>
+    <select class="form-control mt-4" type="number" asp-for="Type">
+        <option value="1">Blue beans</option>
+        <option value="2">Red beans</option>
+        <option value="3">Green beans</option>
+        <option value="4">Yellow beans</option> 
     </select>
 
     <button class="btn btn-primary mt-4" type="submit">Ok</button>

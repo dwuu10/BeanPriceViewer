@@ -4,14 +4,7 @@ namespace BeanPriceViewer.Models
 {
     public class TransactionData
     {
-        public int CityId { get; set; }
-        public int Id { get; set; }
-        public int? Cash { get; set; }
-        public int? Turn { get; set; }
-        public int? MaxTurns { get; set; }
-        public int? BlueStock { get; set; }
-        public int? RedStock { get; set; }
-        public int? GreenStock { get; set; }
-        public int? YellowStock { get; set; }
+        public int? Amount { get; set; }
+        public int? Type { get; set; }
     }
 }

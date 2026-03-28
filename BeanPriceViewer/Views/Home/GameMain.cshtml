@@ -10,8 +10,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Saved Cities</h1>
-    <p>Cash: @Model.Cash</p>
-    <p>Turns: @Model.Turn / @Model.MaxTurns</p>
+    <p>Cash: @ViewBag.Cash</p>
+    <p>Turns: @ViewBag.Turn / @ViewBag.MaxTurn </p>
     <form asp-action="NextTurn" asp-controller="Home">
         <input hidden class="form-control" type="number" placeholder="@Model.Id" asp-for="Id" />
         <input hidden class="form-control" type="number" placeholder="@Model.Cash" asp-for="Cash" />

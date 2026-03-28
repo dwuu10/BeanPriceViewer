@@ -8,6 +8,10 @@
 
 <div class="text-center">
     <h1 class="display-4">Confirm Purchase?</h1>
+    <p>CID: @cid</p>
+    <p>GID: @gameid</p>
+    <p>Amount: @amount</p>
+    <p>Type: @type</p>
 </div>
 
 <a asp-action="ConfirmPurchase" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">Confirm Purchase</a>
