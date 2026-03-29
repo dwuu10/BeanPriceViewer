@@ -4,14 +4,18 @@
     var gameid = ViewBag.GameId;
     var amount = ViewBag.Amount;
     var type = ViewBag.Type;
+    var bean = ViewBag.BeanString;
+    var cost = ViewBag.Cost;
 }
 
 <div class="text-center">
     <h1 class="display-4">Confirm Purchase?</h1>
-    <p>CID: @cid</p>
-    <p>GID: @gameid</p>
+    <p>Bean Type: @bean</p>
     <p>Amount: @amount</p>
-    <p>Type: @type</p>
+    <p>Cost: @cost</p>
+
+    <form asp-action="ConfirmPurchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">
+        <button class="btn btn-primary" type="submit">Confirm Purchase</button>
+    </form>
 </div>
 
-<a asp-action="ConfirmPurchase" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">Confirm Purchase</a>

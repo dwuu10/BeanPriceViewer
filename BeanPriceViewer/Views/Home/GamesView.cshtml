@@ -42,6 +42,9 @@
                 <th>
                     Actions
                 </th>
+                <th>
+                    
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -74,8 +77,14 @@
                             @game.YellowStock
                         </td>
                         <td>
-                            <a asp-action="PlayGame" asp-route-id="@game.Id">Play</a>
-                            <a asp-action="DeleteGame" asp-route-id="@game.Id">Delete</a>
+                            <form asp-action="PlayGame" asp-controller="Home" asp-route-id="@game.Id">
+                                <button class="btn btn-primary" type="submit">Play</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="DeleteGame" asp-controller="Home" asp-route-id="@game.Id">
+                                <button class="btn btn-primary" type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 }

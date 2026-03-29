@@ -55,6 +55,9 @@
                 <th>
                     Actions
                 </th>
+                <th>
+                    
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -87,10 +90,14 @@
                             @city.YellowPrice
                         </td>
                         <td>
-                            <a asp-action="BuyMenu" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">Buy</a>
+                            <form asp-action="BuyMenu" asp-controller="Home" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">
+                                <button class="btn btn-primary" type="submit">Buy</button>
+                            </form>
                         </td>
                         <td>
-                            <a asp-action="SellMenu" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">Sell</a>
+                            <form asp-action="SellMenu" asp-controller="Home" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">
+                                <button class="btn btn-primary" type="submit">Sell</button>
+                            </form>
                         </td>
                     </tr>
                 }
