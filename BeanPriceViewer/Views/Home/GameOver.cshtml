@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Create / Edit";
+    var turns = ViewBag.MaxTurns;
+    var cash = ViewBag.Cash;
+    var blue = ViewBag.Blue;
+    var red = ViewBag.Red;
+    var yellow = ViewBag.Yellow;
+    var green = ViewBag.Green;
+}
+
+@model GameData
+
+<div class="text-center">
+    <h1 class="display-4">Game Over!</h1>
+    <p>You've played to @turns turns</p>
+    <p>You ended the game with @cash cash</p>
+    <p>Ending Stock:</p>
+    <p>Blue Beans: @blue</p>
+    <p>Red Beans: @red</p>
+    <p>Yellow Beans: @yellow</p>
+    <p>Green Beans: @green</p>
+
+    <form asp-action="GamesView" asp-controller="Home">
+        <button class="btn btn-primary mt-4" type="submit">Ok</button>
+    </form>
+</div>

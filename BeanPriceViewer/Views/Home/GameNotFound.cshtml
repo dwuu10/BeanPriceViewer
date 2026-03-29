@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Create / Edit";
-    var id = ViewBag.Id;
 }
 
 @model GameData
@@ -8,9 +7,8 @@
 <div class="text-center">
     <h1 class="display-4">Something went wrong</h1>
     <p>A valid game ID was not found</p>
+
+    <form asp-action="GamesView" asp-controller="Home">
+        <button class="btn btn-primary mt-4" type="submit">Ok</button>
+    </form>
 </div>
-
-<form asp-action="GamesView" asp-controller="Home">
-
-    <button class="btn btn-primary mt-4" type="submit">Ok</button>
-</form>
