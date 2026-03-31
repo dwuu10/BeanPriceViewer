@@ -8,10 +8,10 @@
 
 <div class="text-center">
     <h1 class="display-4">@Model.Name</h1>
-    <p>Blue Beans: @Model.BluePrice</p>
-    <p>Red Beans: @Model.RedPrice</p>
-    <p>Green Beans: @Model.GreenPrice</p>
-    <p>Yellow Beans: @Model.YellowPrice</p>
+    <p>Blue Beans: $@Model.BluePrice</p>
+    <p>Red Beans: $@Model.RedPrice</p>
+    <p>Green Beans: $@Model.GreenPrice</p>
+    <p>Yellow Beans: $@Model.YellowPrice</p>
     <form asp-action="CreateEditCityForm" asp-controller="Home">
         <input hidden class="form-control" type="number" placeholder="0" asp-for="Id" />
         <input hidden class="form-control" type="text" placeholder=@Model.Name asp-for="Name" />

@@ -10,8 +10,12 @@
 
 <div class="text-center">
     <h1 class="display-4">Saved Cities</h1>
-    <p>Cash: @ViewBag.Cash</p>
+    <p>Cash: $@ViewBag.Cash</p>
     <p>Turns: @ViewBag.Turn / @ViewBag.MaxTurn </p>
+    <p>Blue Beans: @Model.BlueStock</p>
+    <p>Red Beans: @Model.RedStock</p>
+    <p>Green Beans: @Model.GreenStock</p>
+    <p>Yellow Beans: @Model.YellowStock</p>
     <form asp-action="NextTurn" asp-controller="Home">
         <input hidden class="form-control" type="number" placeholder="@Model.Id" asp-for="Id" />
         <input hidden class="form-control" type="number" placeholder="@Model.Cash" asp-for="Cash" />
@@ -78,16 +82,16 @@
                             @city.Humidity
                         </td>
                         <td>
-                            @city.BluePrice
+                            $@city.BluePrice
                         </td>
                         <td>
-                            @city.RedPrice
+                            $@city.RedPrice
                         </td>
                         <td>
-                            @city.GreenPrice
+                            $@city.GreenPrice
                         </td>
                         <td>
-                            @city.YellowPrice
+                            $@city.YellowPrice
                         </td>
                         <td>
                             <form asp-action="BuyMenu" asp-controller="Home" asp-route-cid="@city.Id" asp-route-gameid="@Model.Id">

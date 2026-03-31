@@ -9,12 +9,12 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Confirm Purchase?</h1>
+    <h1 class="display-4">Confirm Sale?</h1>
     <p>Bean Type: @bean</p>
     <p>Amount: @amount</p>
-    <p>Cost: $@cost</p>
+    <p>Value: $@cost</p>
 
-    <form asp-action="ConfirmPurchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">
+    <form asp-action="ConfirmSale" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">
         <button class="btn btn-primary" type="submit">Confirm Purchase</button>
     </form>
 </div>
