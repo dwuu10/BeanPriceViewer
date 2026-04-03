@@ -238,7 +238,7 @@ namespace BeanPriceViewer.Controllers
             }
             else if (cityInDb == null)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
             else
             {
@@ -269,7 +269,7 @@ namespace BeanPriceViewer.Controllers
             }
             else if (cityInDb == null)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
             else
             {
@@ -283,7 +283,7 @@ namespace BeanPriceViewer.Controllers
         {
             if (input.Amount < 1)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
 
             var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
@@ -316,7 +316,7 @@ namespace BeanPriceViewer.Controllers
 
             if (cost > model.Cash)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
             ViewBag.Cost = cost;
             ViewBag.Model = model;
@@ -360,7 +360,7 @@ namespace BeanPriceViewer.Controllers
 
             if (cost > model.Cash)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
             else
             {
@@ -381,7 +381,7 @@ namespace BeanPriceViewer.Controllers
         {
             if (input.Amount < 1)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
 
             var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
@@ -419,7 +419,7 @@ namespace BeanPriceViewer.Controllers
 
             if (input.Amount > stock)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
 
             ViewBag.Cost = value;
@@ -467,7 +467,7 @@ namespace BeanPriceViewer.Controllers
 
             if (amount > stock)
             {
-                return RedirectToAction("TransactionError", gameid);
+                return RedirectToAction("TransactionError", new{ id = gameid });
             }
 
             var cost = price * amount;
