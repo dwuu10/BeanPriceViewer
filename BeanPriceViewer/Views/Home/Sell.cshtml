@@ -17,5 +17,9 @@
     <form asp-action="ConfirmSale" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid" asp-route-amount="@amount" asp-route-type="@type">
         <button class="btn btn-primary" type="submit">Confirm Purchase</button>
     </form>
+
+    <form asp-action="SellMenu" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">
+        <button class="btn btn-secondary mt-4" type="submit">Cancel</button>
+    </form>
 </div>
 
