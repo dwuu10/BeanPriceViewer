@@ -196,7 +196,20 @@ namespace BeanPriceViewer.Controllers
             {
                 return RedirectToAction("GameOver", model);
             }
+
             var allCities = _context.CitySet.ToList();
+            foreach (var city in allCities)
+            {
+                city.Temperature = OpenWeatherMapAPI.Weather(city.Name);
+                city.Humidity = OpenWeatherMapAPI.Humidity(city.Name);
+                city.BluePrice = CityData.CalculateBlueBeanPrice((int)city.Temperature);
+                city.RedPrice = CityData.CalculateRedBeanPrice((int)city.Temperature);
+                city.GreenPrice = CityData.CalculateGreenBeanPrice((int)city.Humidity);
+                city.YellowPrice = CityData.CalculateYellowBeanPrice((int)city.Humidity);
+                _context.CitySet.Update(city);
+                _context.SaveChanges();
+            }
+            
             ViewBag.Cities = allCities;
             ViewBag.Cash = model.Cash;
             ViewBag.Turn = model.Turn;
