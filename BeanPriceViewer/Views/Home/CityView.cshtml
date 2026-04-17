@@ -42,6 +42,9 @@
                 <th>
                     Actions
                 </th>
+                <th>
+                    
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -62,20 +65,26 @@
                             @city.Humidity
                         </td>
                         <td>
-                            @city.BluePrice
+                            $@city.BluePrice
                         </td>
                         <td>
-                            @city.RedPrice
+                            $@city.RedPrice
                         </td>
                         <td>
-                            @city.GreenPrice
+                            $@city.GreenPrice
                         </td>
                         <td>
-                            @city.YellowPrice
+                            $@city.YellowPrice
                         </td>
                         <td>
-                            <a asp-action="CreateEditCity" asp-route-id="@city.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@city.Id">Delete</a>
+                            <form asp-action="CreateEditCity" asp-controller="Home" asp-route-id="@city.Id">
+                                <button class="btn btn-primary" type="submit">Edit</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-action="Delete" asp-controller="Home" asp-route-id="@city.Id">
+                                <button class="btn btn-primary" type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 }

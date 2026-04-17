@@ -12,12 +12,12 @@
 @model TransactionData
 
 <div class="text-center">
-    <h1 class="display-4">Buying Beans from @city </h1>
+    <h1 class="display-4">Selling Beans to @city </h1>
     <p>Cash: $@ViewBag.Cash</p>
     <p>Turn: @ViewBag.Turns / @ViewBag.MaxTurns </p>
 </div>
 
-<form asp-action="Purchase" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">
+<form asp-action="Sell" asp-controller="Home" asp-route-cid="@cid" asp-route-gameid="@gameid">
     <input class="form-control" type="number" placeholder="0" asp-for="Amount"/>
     <select class="form-control mt-4" type="number" asp-for="Type">
         <option value="1">Blue beans ($@blue)</option>

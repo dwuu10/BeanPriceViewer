@@ -1,6 +1,7 @@
-using System.Diagnostics;
 using BeanPriceViewer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 
 namespace BeanPriceViewer.Controllers
 {
@@ -136,8 +137,7 @@ namespace BeanPriceViewer.Controllers
         public IActionResult GamesView()
         {
             var allGames = _contextgame.Games.ToList();
-            ViewBag.Games = allGames;
-            return View();
+            return View(allGames);
         }
 
         public IActionResult NewGame()
@@ -175,135 +175,319 @@ namespace BeanPriceViewer.Controllers
                 _contextgame.Games.Update(model);
             }
 
-            _context.SaveChanges();
-            return RedirectToAction("GameMain", model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GamesView");
+        }
+
+        public IActionResult PlayGame(int? id)
+        {
+            if (id != null)
+            {
+                var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == id);
+                return RedirectToAction("GameMain", gameInDb);
+            }
+
+            return RedirectToAction("GameNotFound");
         }
 
         public IActionResult GameMain(GameData model)
         {
+            if (model.Turn > model.MaxTurns)
+            {
+                return RedirectToAction("GameOver", model);
+            }
+
             var allCities = _context.CitySet.ToList();
+            foreach (var city in allCities)
+            {
+                city.Temperature = OpenWeatherMapAPI.Weather(city.Name);
+                city.Humidity = OpenWeatherMapAPI.Humidity(city.Name);
+                city.BluePrice = CityData.CalculateBlueBeanPrice((int)city.Temperature);
+                city.RedPrice = CityData.CalculateRedBeanPrice((int)city.Temperature);
+                city.GreenPrice = CityData.CalculateGreenBeanPrice((int)city.Humidity);
+                city.YellowPrice = CityData.CalculateYellowBeanPrice((int)city.Humidity);
+                _context.CitySet.Update(city);
+                _context.SaveChanges();
+            }
+            
             ViewBag.Cities = allCities;
-            ViewBag.Game = model;
+            ViewBag.Cash = model.Cash;
+            ViewBag.Turn = model.Turn;
+            ViewBag.MaxTurn = model.MaxTurns;
 
-            return View();
+            return View(model);
         }
 
-        public IActionResult NextTurn(TransactionData model)
+        public IActionResult NextTurn(GameData model)
         {
-            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == model.Id);
-            gameInDb.Turn += 1;
-            _contextgame.Games.Update(gameInDb);
-            _contextgame.SaveChanges();
-            return RedirectToAction("GameMain", gameInDb);
-        }
-
-        public IActionResult BuyMenu(TransactionData model)
-        {
-            if (model.CityId != null)
-            {
-                ViewBag.GameData = model;
-                // if not null, editing existing entity
-                var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == model.CityId);
-                return View(cityInDb);
-            }
-            return View();
-        }
-
-        public IActionResult SellMenu(TransactionData model)
-        {
-            if (model.CityId != null)
-            {
-                ViewBag.GameData = model;
-                // if not null, editing existing entity
-                var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == model.CityId);
-                return View(cityInDb);
-            }
-            return View();
-        }
-
-        public IActionResult Purchase(CalculationData model)
-        {
-            var allCities = _context.CitySet.ToList();
-            var city = _context.CitySet.SingleOrDefault(x => x.Id == model.CityId);
-            var price = 0;
-            if (model.BeanType == "Blue")
-            {
-                price = (int) city.BluePrice; 
-            }
-            else if (model.BeanType == "Red")
-            {
-                price = (int) city.RedPrice;
-            }
-            else if (model.BeanType == "Green")
-            {
-                price = (int) city.GreenPrice;
-            }
-            else
-            {
-                price = (int) city.YellowPrice;
-            }
-            var cost = price * model.amount;
-
-            if (cost > model.Cash)
-            {
-                return RedirectToAction("InvalidTransaction", model);
-            } 
-            ViewBag.Cost = cost;
-            ViewBag.Model = model;
-
-            return View();
-        }
-
-        public IActionResult ConfirmPurchase(GameData model)
-        {
-            model.Turn++;
+            model.Turn += 1;
             _contextgame.Games.Update(model);
             _contextgame.SaveChanges();
             return RedirectToAction("GameMain", model);
         }
 
-        public IActionResult Sell(CalculationData model)
+        // buy/sell menus
+
+        public IActionResult BuyMenu(int cid, int gameid)
         {
-            var allCities = _context.CitySet.ToList();
-            var city = _context.CitySet.SingleOrDefault(x => x.Id == model.CityId);
+            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+
+
+            if (gameInDb != null && cityInDb != null)
+            {
+                ViewBag.CID = cid;
+                ViewBag.GameId = gameid;
+                ViewBag.Cash = gameInDb.Cash;
+                ViewBag.Turns = gameInDb.Turn;
+                ViewBag.MaxTurns = gameInDb.MaxTurns;
+                ViewBag.BluePrice = cityInDb.BluePrice;
+                ViewBag.RedPrice = cityInDb.RedPrice;
+                ViewBag.YellowPrice = cityInDb.YellowPrice;
+                ViewBag.GreenPrice = cityInDb.GreenPrice;
+                ViewBag.CityName = cityInDb.Name;
+
+                return View();
+            }
+            else if (cityInDb == null)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+            else
+            {
+                return RedirectToAction("GameNotFound");
+            }
+                
+        }
+
+        public IActionResult SellMenu(int cid, int gameid)
+        {
+            var gameInDb = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var cityInDb = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+
+            if (gameInDb != null && cityInDb != null)
+            {
+                ViewBag.CID = cid;
+                ViewBag.GameId = gameid;
+                ViewBag.Cash = gameInDb.Cash;
+                ViewBag.Turns = gameInDb.Turn;
+                ViewBag.MaxTurns = gameInDb.MaxTurns;
+                ViewBag.BluePrice = cityInDb.BluePrice;
+                ViewBag.RedPrice = cityInDb.RedPrice;
+                ViewBag.YellowPrice = cityInDb.YellowPrice;
+                ViewBag.GreenPrice = cityInDb.GreenPrice;
+                ViewBag.CityName = cityInDb.Name;
+
+                return View();
+            }
+            else if (cityInDb == null)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+            else
+            {
+                return RedirectToAction("GameNotFound");
+            }
+        }
+
+        // bean purchasing
+
+        public IActionResult Purchase(TransactionData input, int cid, int gameid)
+        {
+            if (input.Amount < 1)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+
+            var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+
+            var price = 0;
+            var beanType = input.Type;
+            string beanString = "";
+            if (beanType == 1)
+            {
+                price = (int)city.BluePrice;
+                beanString = "Blue";
+            }
+            else if (beanType == 2)
+            {
+                price = (int)city.RedPrice;
+                beanString = "Red";
+            }
+            else if (beanType == 3)
+            {
+                price = (int)city.GreenPrice;
+                beanString = "Green";
+            }
+            else
+            {
+                price = (int)city.YellowPrice;
+                beanString = "Yellow";
+            }
+            var cost = price * input.Amount;
+
+            if (cost > model.Cash)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+            ViewBag.Cost = cost;
+            ViewBag.Model = model;
+            ViewBag.CID = cid;
+            ViewBag.GameId = gameid;
+            ViewBag.Amount = input.Amount;
+            ViewBag.Type = input.Type;
+            ViewBag.BeanString = beanString;
+
+            return View();
+
+        }
+
+        public IActionResult ConfirmPurchase(int cid, int gameid, int amount, int type)
+        {
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+
+            var price = 0;
+            if (type == 1)
+            {
+                price = (int)city.BluePrice;
+                model.BlueStock += amount;
+            }
+            else if (type == 2)
+            {
+                price = (int)city.RedPrice;
+                model.RedStock += amount;
+            }
+            else if (type == 3)
+            {
+                price = (int)city.GreenPrice;
+                model.GreenStock += amount;
+            }
+            else
+            {
+                price = (int)city.YellowPrice;
+                model.YellowStock += amount;
+            }
+            var cost = price * amount;
+
+            if (cost > model.Cash)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+            else
+            {
+                model.Cash -= cost;
+            }
+
+            model.Turn++;
+
+            _contextgame.Games.Update(model);
+            _contextgame.SaveChanges();
+            return RedirectToAction("GameMain", model);
+
+        }
+
+        // bean selling
+
+        public IActionResult Sell(TransactionData input, int cid, int gameid)
+        {
+            if (input.Amount < 1)
+            {
+                return RedirectToAction("TransactionError", new { id = gameid });
+            }
+
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
             var price = 0;
             var stock = 0;
-            if (model.BeanType == "Blue")
+            var beanType = input.Type;
+            string beanString = "";
+            if (beanType == 1)
             {
                 price = (int)city.BluePrice;
                 stock = (int)model.BlueStock;
+                beanString = "Blue";
             }
-            else if (model.BeanType == "Red")
+            else if (beanType == 2)
             {
                 price = (int)city.RedPrice;
                 stock = (int)model.RedStock;
+                beanString = "Red";
             }
-            else if (model.BeanType == "Green")
+            else if (beanType == 3)
             {
                 price = (int)city.GreenPrice;
                 stock = (int)model.GreenStock;
+                beanString = "Green";
             }
             else
             {
                 price = (int)city.YellowPrice;
                 stock = (int)model.YellowStock;
+                beanString = "Yellow";
             }
 
-            var value = price * model.amount;
+            var value = price * input.Amount;
 
-            if (model.amount > stock)
+            if (input.Amount > stock)
             {
-                return RedirectToAction("InvalidTransaction", model);
+                return RedirectToAction("TransactionError", new { id = gameid });
             }
-            ViewBag.Cost = model.amount;
-            ViewBag.Model = model;
 
-            return View();
+            ViewBag.Cost = value;
+            ViewBag.Model = model;
+            ViewBag.CID = cid;
+            ViewBag.GameId = gameid;
+            ViewBag.Amount = input.Amount;
+            ViewBag.Type = input.Type;
+            ViewBag.BeanString = beanString;
+
+
+            return View(model);
         }
 
-        public IActionResult ConfirmSale(GameData model)
+        public IActionResult ConfirmSale(int cid, int gameid, int amount, int type)
         {
+            var model = _contextgame.Games.SingleOrDefault(x => x.Id == gameid);
+            var city = _context.CitySet.SingleOrDefault(x => x.Id == cid);
+            var price = 0;
+            var stock = 0;
+            if (type == 1)
+            {
+                price = (int)city.BluePrice;
+                stock = (int)city.BluePrice;
+                model.BlueStock -= amount;
+            }
+            else if (type == 2)
+            {
+                price = (int)city.RedPrice;
+                stock = (int)city.RedPrice;
+                model.RedStock -= amount;
+            }
+            else if (type == 3)
+            {
+                price = (int)city.GreenPrice;
+                stock = (int)city.GreenPrice;
+                model.GreenStock -= amount;
+            }
+            else
+            {
+                price = (int)city.YellowPrice;
+                stock = (int)city.YellowPrice;
+                model.YellowStock -= amount;
+            }
+
+            if (amount > stock)
+            {
+                return RedirectToAction("TransactionError", new{ id = gameid });
+            }
+
+            var cost = price * amount;
+
+            model.Cash += cost;
             model.Turn++;
+
             _contextgame.Games.Update(model);
             _contextgame.SaveChanges();
             return RedirectToAction("GameMain", model);
@@ -319,12 +503,31 @@ namespace BeanPriceViewer.Controllers
 
         public IActionResult GameOver(GameData model)
         {
-            return View(model);
+            ViewBag.Cash = model.Cash;
+            ViewBag.MaxTurns = model.MaxTurns;
+            ViewBag.Blue = model.BlueStock;
+            ViewBag.Red = model.RedStock;
+            ViewBag.Yellow = model.YellowStock;
+            ViewBag.Green = model.GreenStock;
+            return View();
         }
 
-        public IActionResult InvalidTransaction(CalculationData model)
+        // error handling
+
+        public IActionResult TransactionError(int? id)
         {
-            ViewBag.Model = model;
+            if (id == null)
+            {
+                return RedirectToAction("GameNotFound");
+            }
+
+            ViewBag.Id = id;
+
+            return View();
+        }
+
+        public IActionResult GameNotFound()
+        {
             return View();
         }
 
