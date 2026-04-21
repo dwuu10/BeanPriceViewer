@@ -17,7 +17,7 @@ namespace BeanPriceViewer;
         var client = new HttpClient();
         string path = "appsettings.json";
         var city = cityname;
-        var key = ""; //"c8751ce973594af2bed7f5ad6b9c57f5"
+        var key = "";
 
         try
         {
@@ -54,7 +54,7 @@ namespace BeanPriceViewer;
             string path = "appsettings.json";
 
             var city = cityname;
-            var key = ""; // "c8751ce973594af2bed7f5ad6b9c57f5";
+            var key = "";
 
             try
             {
