@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # appsettings
-appsettings.json
+BeanPriceViewer/appsettings.json
