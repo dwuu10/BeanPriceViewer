@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,20 @@ namespace BeanPriceViewer;
     public static int Weather(string cityname)
     {
         var client = new HttpClient();
-
+        string path = "appsettings.json";
         var city = cityname;
-        var key = "c8751ce973594af2bed7f5ad6b9c57f5";
+        var key = ""; //"c8751ce973594af2bed7f5ad6b9c57f5"
+
+        try
+        {
+            var appsettings = System.IO.File.ReadAllText(path);
+            var parsed = JObject.Parse(appsettings);
+            key = parsed["Key"]?.ToString();
+        }
+        catch 
+        {
+            return -998;
+        }
 
         var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
 
@@ -39,9 +51,21 @@ namespace BeanPriceViewer;
         public static int Humidity(string cityname)
         {
             var client = new HttpClient();
+            string path = "appsettings.json";
 
             var city = cityname;
-            var key = "c8751ce973594af2bed7f5ad6b9c57f5";
+            var key = ""; // "c8751ce973594af2bed7f5ad6b9c57f5";
+
+            try
+            {
+                var appsettings = System.IO.File.ReadAllText(path);
+                var parsed = JObject.Parse(appsettings);
+                key = parsed["Key"]?.ToString();
+            }
+            catch
+            {
+                return -998;
+            }
 
             var weatherURL = $"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid={key}";
 
