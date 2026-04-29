@@ -15,7 +15,7 @@ namespace BeanPriceViewer;
     public static int Weather(string cityname)
     {
         var client = new HttpClient();
-        string path = "appsettings.json";
+        string path = "key.json";
         var city = cityname;
         var key = "";
 
@@ -51,7 +51,7 @@ namespace BeanPriceViewer;
         public static int Humidity(string cityname)
         {
             var client = new HttpClient();
-            string path = "appsettings.json";
+            string path = "key.json";
 
             var city = cityname;
             var key = "";
