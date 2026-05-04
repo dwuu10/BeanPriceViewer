@@ -37,12 +37,7 @@ Before you start the application:
 
 - Go to https://openweathermap.org/api and obtain an API key from there
 
-- Add a new .json file called "key.json" to the BeanPriceViewer folder (same folder as appsettings.json)
+- Copy key_template.json to the BeanPriceViewer folder (same folder as appsettings.json) and rename it to "key.json"
 
-- Put your API key under a field called "Key"
+- Replace "Your API Key Here" with your API key
 
-key.json template:
-
-{
-  "Key": "your api key here"
-}
