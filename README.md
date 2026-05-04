@@ -28,3 +28,21 @@ To Play this:
 - Navigate to "Games", and start your new game from there
 
 - Enjoy!
+
+IMPORTANT!!!
+
+Using this requires an API key from OpenWeatherMap
+
+Before you start the application:
+
+- Go to https://openweathermap.org/api and obtain an API key from there
+
+- Add a new .json file called "key.json" to the BeanPriceViewer folder (same folder as appsettings.json)
+
+- Put your API key under a field called "Key"
+
+key.json template:
+
+{
+  "Key": "your api key here"
+}
